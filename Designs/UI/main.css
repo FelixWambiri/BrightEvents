@@ -91,3 +91,10 @@ body{
 	position:center;
 
 }
+.bigHr {
+    background-color: black;
+    color: black;
+    border: solid 2px black;
+    height: 5px;
+
+}
