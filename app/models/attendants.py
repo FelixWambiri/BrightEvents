@@ -14,3 +14,5 @@ class Attendants:
         self.name = name
         self.email = email
         self.contacts = contacts
+
+        
