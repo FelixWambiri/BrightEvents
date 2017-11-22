@@ -2,11 +2,13 @@
 {% block body %}
 
 <form class="form-signin" method="post" action="" enctype="multipart/form-data">
+    {{ form.csrf_token }}
     <div class="universal">
         <div class="universal-screen">
             <div class="app-title">
                 <h1>Register</h1>
             </div>
+            {% from 'includes/_formhelpers.html' import render_field %}
             <div class="universal-form">
                 <div class="control-group">
                     {{ render_field(form.username, class_="form-control") }}
