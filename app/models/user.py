@@ -30,6 +30,7 @@ class User:
             event.owner = owner
         if description is not None:
             event.description = description
+        return event
 
     # Deletes an event but first checks if it exists
     def delete_event(self, event):
