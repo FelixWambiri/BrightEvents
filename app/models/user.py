@@ -3,12 +3,13 @@ class User:
     Blue print for creating the user of the app
     With all their attributes and methods
     """
+
     def __init__(self, username, email, password):
         self.id = username
         self.email = email
         self.password = password
         self.events_dict = {}
-        self.events_attendees = {}
+        self.events_attendees = []
 
     # Create an event whereby name is key
     # But first check if the event already exists
@@ -19,7 +20,7 @@ class User:
             return self.events_dict.update({event.name: event})
 
     # Update an event but first check if the user wants to update that field
-    def update_event(self, name, location, category, owner):
+    def update_event(self, name, location, category, owner, description):
         event = self.events_dict[name]
         if location is not None:
             event.location = location
@@ -27,6 +28,8 @@ class User:
             event.category = category
         if owner is not None:
             event.owner = owner
+        if description is not None:
+            event.description = description
 
     # Deletes an event but first checks if it exists
     def delete_event(self, event):
@@ -41,6 +44,10 @@ class User:
             return self.events_dict[event.name]
         else:
             raise KeyError("The event does not exist")
+
+    # Method to add attendees into the attendants list
+    def add_attendants(self, attendant):
+        return self.events_attendees.append(attendant)
 
     # Method to return the total number of events
     def get_number_of_events(self):
