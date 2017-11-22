@@ -7,6 +7,9 @@ def search():
 
 
 class Attendants:
+    """
+    Blue print for creating an event attendee
+    """
     def __init__(self, name, email, contacts):
         self.name = name
         self.email = email
