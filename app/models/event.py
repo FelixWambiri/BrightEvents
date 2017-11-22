@@ -9,3 +9,4 @@ class Event:
         self.location = location
         self.owner = owner
         self.description = description
+
