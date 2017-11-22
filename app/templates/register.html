@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<form class="form-signin">
+<form class="form-signin" method="post" action="" enctype="multipart/form-data">
     <div class="universal">
         <div class="universal-screen">
             <div class="app-title">
@@ -9,16 +9,16 @@
             </div>
             <div class="universal-form">
                 <div class="control-group">
-                    <input type="text" class="form-control" placeholder="Username" required autofocus>
+                    {{ render_field(form.username, class_="form-control") }}
                 </div>
                 <div class="control-group">
-                   <input type="text" class="form-control" placeholder="Email" required autofocus>
+                    {{ render_field(form.email, class_="form-control") }}
                 </div>
                 <div class="control-group">
-                    <input type="password" class="form-control" placeholder="Password" required autofocus >
+                    {{ render_field(form.password, class_="form-control") }}
                 </div>
                 <div class="control-group">
-                    <input type="password" class="form-control" placeholder="Confirm Password" required autofocus>
+                    {{ render_field(form.confirm_password, class_="form-control") }}
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
             </div>
@@ -27,3 +27,4 @@
 </form>
 
 {% endblock %}
+
