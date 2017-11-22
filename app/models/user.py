@@ -4,10 +4,11 @@ class User:
     With all their attributes and methods
     """
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, email, password, confirm_password):
         self.id = username
         self.email = email
         self.password = password
+        self.confirm_password = confirm_password
         self.events_dict = {}
         self.events_attendees = []
 
@@ -53,3 +54,5 @@ class User:
     # Method to return the total number of events
     def get_number_of_events(self):
         return len(self.events_dict)
+
+
