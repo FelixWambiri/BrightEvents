@@ -20,8 +20,6 @@ class UserAccounts:
     def get_specific_user(self, username):
         if username in self.users:
             return self.users[username]
-        else:
-            raise KeyError("The user does not exist")
 
     # Delete a user
     def delete_user(self, username):
@@ -30,3 +28,5 @@ class UserAccounts:
         except KeyError:
             print("The User does not exist")
             raise
+
+        
