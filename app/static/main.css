@@ -1,0 +1,100 @@
+*{
+	box-sizing:border-box;
+}
+*:focus{
+	outline:none;
+}
+body{
+	font-family:Arial;
+	background-color:#CFD8DC;
+	}
+.universal{
+	margin:20px auto;
+	width:300px;
+}
+.universal-screen{
+	background-color:#FFF;
+	padding:20px;
+	border-radius:5px;
+}
+.app-title{
+	text-align:center;
+	color:#777;
+}
+.universal-form{
+	text-align:center;
+}
+.form-signin
+{
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.control-group{
+	margin-bottom:10px;
+}
+.form-signin .form-control
+{
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus
+{
+    z-index: 2;
+}
+.form-signin input[type="text"]
+{
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"]
+{  margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+/* STYLING FOR THE CARD TO DISPLAY EVENTS*/
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+	border-radius: 5px;
+	width: 500px;
+	padding:10px;
+    margin: auto;
+	text-align: center;
+    background-color: #f1f1f1;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+    padding: 2px 16px;
+}
+.btn {
+
+	border-radius: 5px;
+	outline: 0;
+    display: inline-block;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+	position:center;
+
+}
+.bigHr {
+    background-color: black;
+    color: black;
+    border: solid 2px black;
+    height: 5px;
+
+}
