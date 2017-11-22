@@ -98,6 +98,23 @@ class TestUser(unittest.TestCase):
         self.user.add_attendants(self.attendant1)
         self.assertEqual(1, len(self.user.events_attendees))
 
+    # Test that an event can be updated
+    def test_successful_update_of_event(self):
+        self.user.create_event(self.event1)
+        self.assertEqual(self.event1,
+                         self.user.update_event("Bootcamp", "social", "tanzania", "safaricom", "eating contest"))
+
+    # Test that the correct number of events is returned
+    def test_that_get_number_of_events_method_returns_correct_output(self):
+        # Test when there is no event added
+        self.assertEqual(0, self.user.get_number_of_events())
+
+        # Test after creating three events
+        self.user.create_event(self.event1)
+        self.user.create_event(self.event2)
+        self.user.create_event(self.event3)
+        self.assertEqual(3, self.user.get_number_of_events())
+
 
 if __name__ == '__main__':
     unittest.main()
