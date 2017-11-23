@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, flash, url_for
-from flask_login import LoginManager, login_user, current_user, logout_user
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from werkzeug.utils import redirect
 
-from app.forms import RegisterForm
+from app.forms import RegisterForm, CreateEventForm
+from app.models.event import Event
 from app.models.user import User
 from app.models.user_acounts import UserAccounts
 
@@ -71,16 +72,35 @@ def register():
 
 # User dashboard route
 @app.route('/dashboard')
+@login_required
 def dashboard():
     return render_template("dashboard.html")
 
 
 # Logout route
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash('You are logged out', 'success')
     return redirect(url_for('login'))
+
+
+# User crud operations
+# Create an event
+@app.route('/create_event', methods=['GET', 'POST'])
+@login_required
+def create_event():
+    form = CreateEventForm(request.form)
+    if request.method == 'POST' and form.validate():
+        event = Event(form.name.data, form.category.data, form.location.data, form.owner.data, form.description.data)
+        try:
+            current_user.create_event(event)
+            return redirect(url_for('dashboard'))
+        except KeyError:
+            flash('The event already exists', 'warning')
+            return render_template("create_event.html", form=form)
+    return render_template("create_event.html", form=form)
 
 
 if __name__ == '__main__':
