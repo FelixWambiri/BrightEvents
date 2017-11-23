@@ -10,17 +10,20 @@
                 <a class="navbar-brand" href="#">Bright Events</a>
             </button>
         </div>
-        <ul class="nav navbar-nav navbar-left">
+        <ul class="nav navbar-nav navbar-right">
+            {% if current_user.is_authenticated %}
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="eventsDisplay.html">Events</a></li>
             <li><a href="/">Home</a></li>
             <li><a href="events.html">Public Events</a></li>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
+            {% else %}
+            <li><a href="/">Home</a></li>
+            <li><a href="events.html">Public Events</a></li>
             <li><a href="/register">Register</a></li>
-            <li><a href="eventsDisplay.html">Events</a></li>
-            <li><a href="/logout">Logout</a></li>
-
+            {% endif %}
         </ul>
+
+
     </div>
 </nav>
 
