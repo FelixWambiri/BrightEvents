@@ -1,19 +1,22 @@
-
 {% extends 'layout.html' %}
 {% block body %}
 
-<form class="form-signin" method="post" action="" enctype="multipart/form-data">
+<form class="form-signin" method="POST" action="" enctype="multipart/form-data">
     <div class="universal">
         <div class="universal-screen">
             <div class="app-title">
                 <h1>Login</h1>
             </div>
+            <!-- In the value we put {{ request.form.username/password }} so that if anything happens to the form refresh
+                    the data stays-->
             <div class="universal-form">
                 <div class="control-group">
-                   <input type="text" class="form-control" placeholder="Email" required autofocus>
+                    <input type="text" class="form-control" placeholder="Email" value="{{ request.form.username }}"
+                           required autofocus>
                 </div>
                 <div class="control-group">
-                    <input type="password" class="form-control" placeholder="Password" required autofocus >
+                    <input type="password" class="form-control" placeholder="Password"
+                           value="{{ request.form.password }}" required autofocus>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
             </div>
