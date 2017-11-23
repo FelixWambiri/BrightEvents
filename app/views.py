@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash, url_for
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, current_user, logout_user
 from werkzeug.utils import redirect
 
 from app.forms import RegisterForm
@@ -75,7 +75,13 @@ def dashboard():
     return render_template("dashboard.html")
 
 
+# Logout route
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('You are logged out', 'success')
+    return redirect(url_for('login'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
-
-    
