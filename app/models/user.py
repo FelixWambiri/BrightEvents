@@ -1,4 +1,7 @@
-class User:
+from flask_login import UserMixin
+
+
+class User(UserMixin):
     """
     Blue print for creating the user of the app
     With all their attributes and methods
@@ -50,6 +53,10 @@ class User:
     # Method to add attendees into the attendants list
     def add_attendants(self, attendant):
         return self.events_attendees.append(attendant)
+
+    # Method to know the number of attendants
+    def get_total_attendants(self):
+        return len(self.events_attendees)
 
     # Method to return the total number of events
     def get_number_of_events(self):
