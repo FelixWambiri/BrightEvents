@@ -1,4 +1,4 @@
-from wtforms import StringField, Form, validators, PasswordField
+from wtforms import StringField, Form, validators, PasswordField, TextAreaField
 
 """
 This class will help validate the registration form
@@ -16,3 +16,14 @@ class RegisterForm(Form):
                                           validators.EqualTo('confirm_password', message='Passwords do not match')])
     confirm_password = PasswordField('Confirm Password', [validators.DataRequired("This field is a Must")])
 
+
+class CreateEventForm(Form):
+    name = StringField('Name',
+                       [validators.DataRequired("Please fill out this field"), validators.Length(min=5, max=30)])
+    category = StringField('Category',
+                           [validators.DataRequired("Please fill out this field"), validators.Length(min=5, max=30)])
+    location = StringField('Location',
+                           [validators.DataRequired("Please fill out this field"), validators.Length(min=5, max=30)])
+    owner = StringField('Owner',
+                        [validators.DataRequired("Please fill out this field"), validators.Length(min=5, max=30)])
+    description = TextAreaField('Description', [validators.Length(min=15)])
