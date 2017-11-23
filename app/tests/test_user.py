@@ -16,7 +16,7 @@ class TestUser(unittest.TestCase):
         """
         Instantiating reusable variables
         """
-        self.user = User("Fellow1", "fellow1@andela.com", "bootcampertofellow")
+        self.user = User("Fellow1", "fellow1@andela.com", "bootcampertofellow", "bootcampertofellow")
         self.event1 = Event("Bootcamp", "Learning", "Uganda", "Andela", "Learning event for aspiring Andelans")
         self.event2 = Event("Blaze", "Entrepreneurial", "Kenya", "Safariom",
                             "This is is a great opportunity for budding young entrepreneurs")
@@ -115,6 +115,17 @@ class TestUser(unittest.TestCase):
         self.user.create_event(self.event3)
         self.assertEqual(3, self.user.get_number_of_events())
 
+    # Test that the correct number of event attendants is returned
+    def test_that_get_total_attendants_method_returns_correct_output(self):
+        # Test when there is no event added
+        self.assertEqual(0, self.user.get_total_attendants())
+
+        # Test after adding one attendant
+        self.user.add_attendants(self.attendant1)
+        self.assertEqual(1, self.user.get_total_attendants())
+
 
 if __name__ == '__main__':
     unittest.main()
+
+    
