@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h1>Dashboard
+    <small> Welcome {{ current_user.id }} </small>
+</h1>
+<a class="btn btn-success" href="/create_event">New Event</a>
+<hr>
+
+{% endblock %}
