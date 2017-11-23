@@ -8,7 +8,8 @@ from app.models.user import User
 from app.models.user_acounts import UserAccounts
 
 app = Flask(__name__)
-app.secret_key = '\xcd]\x1f\x8a\xa7\xd0J\xd6\x99\x8c/\x1e\x91~hU4tgd\xe5\xa2\xab3'
+app.config.from_object('app.instance.config.DevelopmentConfig')
+
 
 # Create login manager class
 login_manager = LoginManager()
@@ -103,5 +104,18 @@ def create_event():
     return render_template("create_event.html", form=form)
 
 
+# Delete an event
+@app.route('/delete_event/<string:eventName>')
+@login_required
+def delete_event(eventName):
+    try:
+        current_user.delete_event(eventName)
+        return redirect(url_for('dashboard'))
+    except KeyError:
+        flash('The event does not exist')
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
+
+    
