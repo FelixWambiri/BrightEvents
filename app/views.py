@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, url_for
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from werkzeug.utils import redirect
 
-from app.forms import RegisterForm, CreateEventForm
+from app.forms import RegisterForm, CreateEventForm, UpdateEventForm
 from app.models.event import Event
 from app.models.user import User
 from app.models.user_acounts import UserAccounts
@@ -113,9 +113,25 @@ def delete_event(eventName):
         current_user.delete_event(eventName)
         return redirect(url_for('dashboard'))
     except KeyError:
-        flash('The event does not exist')
+        flash('The event does not exist', 'warning')
+
+
+# Update an Event
+# Name field should not be editable
+@app.route('/update_event/<string:eventName>', methods=['GET', 'PUT', 'POST'])
+@login_required
+def update_event(eventName):
+    form = UpdateEventForm(request.form)
+    if request.method == 'POST' and form.validate():
+        try:
+            current_user.update_event(eventName, form.category.data, form.location.data, form.owner.data, form.description.data)
+            flash('The event does not exist', 'warning')
+            return redirect(url_for('dashboard'))
+        except KeyError:
+            flash('The event does not exist', 'warning')
+
+    return render_template("update_event.html", form=form)
 
 
 if __name__ == '__main__':
     app.run()
-
