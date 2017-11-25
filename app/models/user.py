@@ -24,12 +24,12 @@ class User(UserMixin):
             return self.events_dict.update({event.name: event})
 
     # Update an event but first check if the user wants to update that field
-    def update_event(self, name, location, category, owner, description):
+    def update_event(self, name, category, location, owner, description):
         event = self.events_dict[name]
-        if location is not None:
-            event.location = location
         if category is not None:
             event.category = category
+        if location is not None:
+            event.location = location
         if owner is not None:
             event.owner = owner
         if description is not None:
@@ -61,5 +61,3 @@ class User(UserMixin):
     # Method to return the total number of events
     def get_number_of_events(self):
         return len(self.events_dict)
-
-    
