@@ -8,8 +8,9 @@ from app.models.user import User
 from app.models.user_acounts import UserAccounts
 
 app = Flask(__name__)
-app.config.from_object('app.instance.config.DevelopmentConfig')
 
+# Import the apps configuration settings from config file in instance folder
+app.config.from_object('app.instance.config.DevelopmentConfig')
 
 # Create login manager class
 login_manager = LoginManager()
@@ -118,4 +119,3 @@ def delete_event(eventName):
 if __name__ == '__main__':
     app.run()
 
-    
