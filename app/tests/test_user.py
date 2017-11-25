@@ -62,12 +62,12 @@ class TestUser(unittest.TestCase):
         self.assertEqual(3, len(self.user.events_dict))
 
         # Delete a single event, event1
-        self.user.delete_event(self.event1)
+        self.user.delete_event("Bootcamp")
         self.assertEqual(2, len(self.user.events_dict))
 
         # Delete the remaining events
-        self.user.delete_event(self.event2)
-        self.user.delete_event(self.event3)
+        self.user.delete_event("Blaze")
+        self.user.delete_event("Blankets and wines")
         self.assertEqual(0, len(self.user.events_dict))
 
     # Test method raises exception on attempt to delete an event that does not exist
@@ -75,18 +75,18 @@ class TestUser(unittest.TestCase):
         # creating an event but not adding it to the database to pass it as a parameter in our method
         self.event4 = Event("Blaze", "Entrepreneurial", "Kenya", "Safariom",
                             "This is is a great opportunity for budding young entrepreneurs")
-        self.assertRaises(KeyError, self.user.delete_event, self.event4)
+        self.assertRaises(KeyError, self.user.delete_event, "Blaze")
 
         # Test that once an event is deleted it is completely wiped of from the database
         # Create the event
         self.user.create_event(self.event1)
 
         # Delete it the first instance
-        self.user.delete_event(self.event1)
+        self.user.delete_event("Bootcamp")
         self.assertEqual(0, len(self.user.events_dict))
 
         # Delete it second time and see if it captures the exception
-        self.assertRaises(KeyError, self.user.delete_event, self.event1)
+        self.assertRaises(KeyError, self.user.delete_event, "Bootcamp")
 
     # Test that the method get_specific_event returns that specified event
     def test_get_specific_event_method_returns_correct_output(self):
