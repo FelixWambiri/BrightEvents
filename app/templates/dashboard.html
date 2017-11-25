@@ -8,9 +8,10 @@
 <div class="container">
     {% if current_user.get_number_of_events() > 0 %}
     {% for event_name, event in current_user.events_dict.items() %}
-    <div class="card ">
+    <div class="card" style="margin:25px auto;">
         <div class="card-header">
-            <h2 style="text-align:center"><strong>{{ event.name }}</strong> || <strong>{{ event.category }}</strong> || <strong>{{ event.location }}</strong></h2>
+            <h2 style="text-align:center"><strong>{{ event.name }}</strong> || <strong>{{ event.category }}</strong> ||
+                <strong>{{ event.location }}</strong></h2>
         </div>
         <hr>
         <div class="card-body bg-transparent border-success">
@@ -21,12 +22,13 @@
                     <th>Contacts</th>
                     <th>Location</th>
                 </tr>
+
                 <tr>
                     <td>{{ attendant.name }}</td>
                     <td>{{ attendant.contact }}</td>
                     <td>{{ attendant.location }}</td>
                 </tr>
-                <!-- {% endfor %}-->
+
             </table>
             {% else %}
             <ul class="list-group">
@@ -37,7 +39,8 @@
         <hr>
         <div class="card-footer bg-transparent border-success">
             <button class="btn btn-primary">Update</button>
-            <input class="btn btn-danger" type="submit" value="Delete">
+            <input class="btn btn-danger" type="submit" value="Delete"
+                   onclick="window.location.href='{{ url_for('delete_event', eventName = event.name) }}' ">
         </div>
     </div>
     {% endfor %}
@@ -48,6 +51,5 @@
     {% endif %}
 
 </div>
-
 {% endblock %}
 
