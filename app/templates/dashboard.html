@@ -38,7 +38,9 @@
         </div>
         <hr>
         <div class="card-footer bg-transparent border-success">
-            <button class="btn btn-primary">Update</button>
+            <button class="btn btn-primary"
+                    onclick="window.location.href='{{ url_for('update_event', eventName = event.name) }}'">Update
+            </button>
             <input class="btn btn-danger" type="submit" value="Delete"
                    onclick="window.location.href='{{ url_for('delete_event', eventName = event.name) }}' ">
         </div>
