@@ -30,11 +30,11 @@ class CreateEventForm(Form):
 
 
 class UpdateEventForm(Form):
-    category = StringField('Category', [validators.Length(min=5, max=30)])
+    category = StringField('Category')
 
-    location = StringField('Location', [validators.Length(min=5, max=30)])
+    location = StringField('Location')
 
-    owner = StringField('Owner', [validators.Length(min=5, max=30)])
+    owner = StringField('Owner')
 
-    description = TextAreaField('Description', [validators.Length(min=15)])
-    
+    description = TextAreaField('Description')
+
