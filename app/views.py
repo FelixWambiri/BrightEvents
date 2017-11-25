@@ -125,7 +125,7 @@ def update_event(eventName):
     if request.method == 'POST' and form.validate():
         try:
             current_user.update_event(eventName, form.category.data, form.location.data, form.owner.data, form.description.data)
-            flash('The event does not exist', 'warning')
+            flash('The event has been updated successfully', 'success')
             return redirect(url_for('dashboard'))
         except KeyError:
             flash('The event does not exist', 'warning')
