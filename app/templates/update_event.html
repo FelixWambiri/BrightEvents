@@ -10,7 +10,7 @@
             {% from 'includes/_formhelpers.html' import render_field %}
             <div class="universal-form">
                 <div class="control-group">
-                    <input type="text" class="form-control" placeholder="Event Name"  required autofocus disabled>
+                    <input type="text" class="form-control" placeholder="Event Name" required autofocus disabled>
                 </div>
                 <div class="control-group">
                     {{ render_field(form.category, class_="form-control") }}
@@ -25,7 +25,9 @@
                     {{ render_field(form.description, class_="form-control", id="editor") }}
                 </div>
                 <button class="btn btn-primary btn-block" type="submit">Update</button>
-                <button class="btn btn-primary btn-block" type="submit">Back</button>
+                <form>
+                    <input type="button" class="btn btn-primary btn-block" value="Back" onclick="history.go(-1)">
+                </form>
             </div>
         </div>
     </div>
