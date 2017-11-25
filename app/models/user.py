@@ -37,11 +37,11 @@ class User(UserMixin):
         return event
 
     # Deletes an event but first checks if it exists
-    def delete_event(self, event):
-        if event.name in self.events_dict:
-            return self.events_dict.pop(event.name)
-        else:
+    def delete_event(self, name):
+        if name not in self.events_dict:
             raise KeyError("There does not exist an event by that name")
+        else:
+            return self.events_dict.pop(name)
 
     # This method returns a specific event
     def get_specific_event(self, event):
@@ -62,4 +62,4 @@ class User(UserMixin):
     def get_number_of_events(self):
         return len(self.events_dict)
 
-
+    
