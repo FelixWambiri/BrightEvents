@@ -74,8 +74,29 @@ class UserViewsTests(BaseTestCase):
                                         follow_redirects=True)
             self.assertIn(b'You have been registered successfully and can proceed to login', response.data)
 
+    # Ensure id is correct for the current/logged in user
+    def test_get_correct_id(self):
+        with self.client:
+            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+                             follow_redirects=True)
+            self.assertTrue(current_user.id == 'Fellow1')
+
+    # Test that a user can create an event
+    def test_user_can_create_an_event(self):
+        with self.client:
+            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+                             follow_redirects=True)
+            response = self.client.post('/create_event',
+                                        data=dict(name="Blaze", category="Learning", location="Nairobi", owner="Andela",
+                                                  description="It is a long established fact that a reader will "
+                                                              "be distracted by the readable content of a page when "
+                                                              "looking at its layout. The point of using Lorem Ipsum "
+                                                              "is that it has a more-or-less normal distribution "),
+                                        follow_redirects=True)
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(b'Dashboard', response.data)
+
 
 if __name__ == '__main__':
     unittest.main()
 
-    
