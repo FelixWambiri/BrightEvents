@@ -47,22 +47,13 @@ class TestUserAccounts(unittest.TestCase):
         self.user_accounts.create_user(self.user1)
         self.assertEqual(1, len(self.user_accounts.users))
 
-        # Test that when a user is created their events are added as well
-        self.assertEqual(1, len(self.user_accounts.events))
-
         # Second User
         self.user_accounts.create_user(self.user2)
         self.assertEqual(2, len(self.user_accounts.users))
 
-        # Test that when a user is created their events are added as well
-        self.assertEqual(2, len(self.user_accounts.events))
-
         # Third User
         self.user_accounts.create_user(self.user3)
         self.assertEqual(3, len(self.user_accounts.users))
-
-        # Test that when a user is created their events are added as well
-        self.assertEqual(3, len(self.user_accounts.events))
 
     # Test exception is raised on registration of two users with same username/id
     def test_exception_raised_on_registration_of_two_users_using_the_same_id(self):
@@ -96,11 +87,47 @@ class TestUserAccounts(unittest.TestCase):
         self.user_accounts.create_user(self.user1)
         self.assertIs(self.user1, self.user_accounts.get_specific_user("Johny"))
 
+    # Test that users individual events are added into the general events dictionary
+    def test_add_all_individual_events_method_works_correctly(self):
+        # Add user1 together with their events
+        self.user_accounts.create_user(self.user1)
+        self.user_accounts.add_all_individual_events(self.user1)
+
+        # Test if events are added
+        self.assertEqual(1, len(self.user_accounts.events))
+
+        # Add user2 together with their events
+        self.user_accounts.create_user(self.user2)
+        self.user_accounts.add_all_individual_events(self.user2)
+
+        # Test if events are added
+        self.assertEqual(2, len(self.user_accounts.events))
+
+        # Add user3 together with their events
+        self.user_accounts.create_user(self.user3)
+        self.user_accounts.add_all_individual_events(self.user3)
+
+        # Test if events are added
+        self.assertEqual(3, len(self.user_accounts.events))
+
     # Test that the correct number of events is returned
     def test_that_get_number_of_events_method_returns_correct_output(self):
         # Test when there is no event added
         self.assertEqual(0, self.user_accounts.get_number_of_all_users_events())
 
+        # Test when two users are added together with their events
+        # User One and their events
+        self.user_accounts.create_user(self.user2)
+        self.user_accounts.add_all_individual_events(self.user2)
+
+        # User Two and their events
+        self.user_accounts.create_user(self.user3)
+        self.user_accounts.add_all_individual_events(self.user3)
+
+        # Test if events are added
+        self.assertEqual(2, len(self.user_accounts.events))
+
 
 if __name__ == '__main__':
     unittest.main()
+
