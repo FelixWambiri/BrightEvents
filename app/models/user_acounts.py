@@ -7,13 +7,14 @@ class UserAccounts:
 
     def __init__(self):
         self.users = {}
-        self.events = []
+        self.events = {}
 
     # Add a new user into the database
     def create_user(self, user):
         if user.id in self.users:
             raise KeyError("There exists a user with that name. Please use another name")
         else:
+            self.events.update(user.events_dict)
             return self.users.update({user.id: user})
 
     # Return a specific user
@@ -29,4 +30,6 @@ class UserAccounts:
             print("The User does not exist")
             raise
 
-        
+    def get_number_of_all_users_events(self):
+        return len(self.events)
+
