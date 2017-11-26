@@ -98,6 +98,7 @@ def create_event():
         event = Event(form.name.data, form.category.data, form.location.data, form.owner.data, form.description.data)
         try:
             current_user.create_event(event)
+            user_accounts.add_all_individual_events(current_user)
             return redirect(url_for('dashboard'))
         except KeyError:
             flash('The event already exists', 'warning')
@@ -143,4 +144,3 @@ def public_events():
 
 if __name__ == '__main__':
     app.run()
-
