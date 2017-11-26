@@ -58,7 +58,7 @@ def login():
 
 
 # Registration route
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/api/v1/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -73,14 +73,14 @@ def register():
 
 
 # User dashboard route
-@app.route('/dashboard')
+@app.route('/api/v1/dashboard')
 @login_required
 def dashboard():
     return render_template("dashboard.html")
 
 
 # Logout route
-@app.route('/logout')
+@app.route('/api/v1/logout')
 @login_required
 def logout():
     logout_user()
@@ -90,9 +90,9 @@ def logout():
 
 # User crud operations
 # Create an event
-@app.route('/create_event', methods=['GET', 'POST'])
+@app.route('/api/v1/create_events', methods=['GET', 'POST'])
 @login_required
-def create_event():
+def create_events():
     form = CreateEventForm(request.form)
     if request.method == 'POST' and form.validate():
         event = Event(form.name.data, form.category.data, form.location.data, form.owner.data, form.description.data)
@@ -107,9 +107,9 @@ def create_event():
 
 
 # Delete an event
-@app.route('/delete_event/<string:eventName>')
+@app.route('/api/v1/delete_events/<string:eventName>')
 @login_required
-def delete_event(eventName):
+def delete_events(eventName):
     try:
         current_user.delete_event(eventName)
         return redirect(url_for('dashboard'))
@@ -119,9 +119,9 @@ def delete_event(eventName):
 
 # Update an Event
 # Name field should not be editable
-@app.route('/update_event/<string:eventName>', methods=['GET', 'PATCH', 'POST'])
+@app.route('/api/v1/update_events/<string:eventName>', methods=['GET', 'PATCH', 'POST'])
 @login_required
-def update_event(eventName):
+def update_events(eventName):
     form = UpdateEventForm(request.form)
     if request.method == 'POST' and form.validate():
         try:
@@ -137,10 +137,11 @@ def update_event(eventName):
 
 # Route for viewing all public events
 # Accessible to all no restriction needed
-@app.route('/public_events')
+@app.route('/api/v1/public_events')
 def public_events():
     return render_template("public_events.html", user_accounts=user_accounts)
 
 
 if __name__ == '__main__':
     app.run()
+
