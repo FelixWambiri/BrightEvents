@@ -118,13 +118,14 @@ def delete_event(eventName):
 
 # Update an Event
 # Name field should not be editable
-@app.route('/update_event/<string:eventName>', methods=['GET', 'PUT', 'POST'])
+@app.route('/update_event/<string:eventName>', methods=['GET', 'PATCH', 'POST'])
 @login_required
 def update_event(eventName):
     form = UpdateEventForm(request.form)
     if request.method == 'POST' and form.validate():
         try:
-            current_user.update_event(eventName, form.category.data, form.location.data, form.owner.data, form.description.data)
+            current_user.update_event(eventName, form.category.data, form.location.data, form.owner.data,
+                                      form.description.data)
             flash('The event has been updated successfully', 'success')
             return redirect(url_for('dashboard'))
         except KeyError:
@@ -133,5 +134,13 @@ def update_event(eventName):
     return render_template("update_event.html", form=form)
 
 
+# Route for viewing all public events
+# Accessible to all no restriction needed
+@app.route('/public_events')
+def public_events():
+    return render_template("public_events.html", user_accounts=user_accounts)
+
+
 if __name__ == '__main__':
     app.run()
+
