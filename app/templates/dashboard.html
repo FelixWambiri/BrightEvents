@@ -3,7 +3,7 @@
 <h1>Dashboard
     <small> Welcome {{ current_user.id }}</small>
 </h1>
-<button class="btn btn-primary" onclick="window.location.href='{{url_for('create_event')}} '">New Event</button>
+<button class="btn btn-primary" onclick="window.location.href='{{url_for('create_events')}} '">New Event</button>
 <hr>
 <div class="container">
     {% if current_user.get_number_of_events() > 0 %}
@@ -39,10 +39,10 @@
         <hr>
         <div class="card-footer bg-transparent border-success">
             <button class="btn btn-primary"
-                    onclick="window.location.href='{{ url_for('update_event', eventName = event.name) }}'">Update
+                    onclick="window.location.href='{{ url_for('update_events', eventName = event.name) }}'">Update
             </button>
             <input class="btn btn-danger" type="submit" value="Delete"
-                   onclick="window.location.href='{{ url_for('delete_event', eventName = event.name) }}' ">
+                   onclick="window.location.href='{{ url_for('delete_events', eventName = event.name) }}' ">
         </div>
     </div>
     {% endfor %}
