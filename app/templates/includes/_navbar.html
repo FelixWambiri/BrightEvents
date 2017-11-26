@@ -12,14 +12,14 @@
         </div>
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}
-            <li><a href="/logout">Logout</a></li>
-            <li><a href="/dashboard">dashboard</a></li>
+            <li><a href="/api/v1/logout">Logout</a></li>
+            <li><a href="/api/v1/dashboard">dashboard</a></li>
             <li><a href="/">Home</a></li>
-            <li><a href="/public_events">Public Events</a></li>
+            <li><a href="/api/v1/public_events">Public Events</a></li>
             {% else %}
             <li><a href="/">Home</a></li>
-            <li><a href="/public_events">Public Events</a></li>
-            <li><a href="/register">Register</a></li>
+            <li><a href="/api/v1/public_events">Public Events</a></li>
+            <li><a href="/api/v1/register">Register</a></li>
             {% endif %}
         </ul>
     </div>
