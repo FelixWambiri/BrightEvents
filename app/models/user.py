@@ -28,12 +28,20 @@ class User(UserMixin):
         event = self.events_dict[name]
         if category is not None:
             event.category = category
+        else:
+            return event.category
         if location is not None:
             event.location = location
+        else:
+            return event.location
         if owner is not None:
             event.owner = owner
+        else:
+            return event.owner
         if description is not None:
             event.description = description
+        else:
+            return event.description
         return event
 
     # Deletes an event but first checks if it exists
@@ -61,3 +69,5 @@ class User(UserMixin):
     # Method to return the total number of events
     def get_number_of_events(self):
         return len(self.events_dict)
+
+
