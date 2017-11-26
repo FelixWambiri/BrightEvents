@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <h2><strong>Events that you might want to attend</strong></h2>
+    {% if user_accounts.get_number_of_all_users_events() > 0 %}
+    {% for event in user_accounts.events %}
+    <a href="single_event.html" class="list-group-item ">
+        <h4 class="list-group-item-heading"><strong>{{ event.name }}</strong></h4>
+        <p><span class="badge">{{ event.category }}</span><span class="badge">{{ event.location }}</span></p>
+    </a>
+    {% endfor %}
+    {% else %}
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-info">Currently no event has been organized</li>
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}
+
