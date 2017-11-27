@@ -136,12 +136,21 @@ def update_events(eventName):
 
 
 # Route for viewing all public events
-# Accessible to all no restriction needed
-@app.route('/api/v1/public_events')
+@app.route('/api/v1/public_events', methods=['GET'])
+@login_required
 def public_events():
     return render_template("public_events.html", user_accounts=user_accounts)
 
 
+# Route for viewing a single event
+# Extracts single event by name
+@app.route('/api/v1/single_events/<eventName>', methods=['GET'])
+@login_required
+def single_events(eventName):
+    event_dict = user_accounts.events
+    event = event_dict.get(eventName)
+    return render_template("single_event.html", event=event)
+
+
 if __name__ == '__main__':
     app.run()
-
