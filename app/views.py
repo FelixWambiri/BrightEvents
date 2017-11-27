@@ -144,7 +144,7 @@ def public_events():
 
 # Route for viewing a single event
 # Extracts single event by name
-@app.route('/api/v1/single_events/<eventName>', methods=['GET'])
+@app.route('/api/v1/single_events/<string:eventName>', methods=['GET'])
 @login_required
 def single_events(eventName):
     event_dict = user_accounts.events
