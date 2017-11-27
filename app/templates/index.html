@@ -7,15 +7,16 @@
             <div class="app-title">
                 <h1>Login</h1>
             </div>
-            <!-- In the value we put {{ request.form.username/password }} so that if anything happens to the form refresh
-                    the data stays-->
             <div class="universal-form">
                 <div class="control-group">
-                    <input type="text" class="form-control" placeholder="Email" value="{{ request.form.username }}"
+                    {# In the value we put {{ request.form.username }} so that if anything happens to the form refresh
+                    the data stays #}
+                    <input type="text" name="username" class="form-control" placeholder="Email"
+                           value="{{ request.form.username }}"
                            required autofocus>
                 </div>
                 <div class="control-group">
-                    <input type="password" class="form-control" placeholder="Password"
+                    <input type="password" name="password" class="form-control" placeholder="Password"
                            value="{{ request.form.password }}" required autofocus>
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
