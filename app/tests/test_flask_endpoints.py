@@ -27,7 +27,7 @@ class FlaskTestCase(BaseTestCase):
 
     # Test that the dashboard route is protected
     def test_dashboard_route_is_protected_and_requires_login(self):
-        response = self.client.get('/dashboard', follow_redirects=True)
+        response = self.client.get('/api/v1/dashboard', follow_redirects=True)
         self.assertTrue(b'Please Login First to access this page' in response.data)
 
 
@@ -57,20 +57,20 @@ class UserViewsTests(BaseTestCase):
         with self.client:
             self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
                              follow_redirects=True)
-            response = self.client.get('/logout', follow_redirects=True)
+            response = self.client.get('/api/v1/logout', follow_redirects=True)
             self.assertIn(b'You are logged out', response.data)
 
     # Ensure that the logout route requires user first to be logged in to use it
     def test_logout_route_requires_user_to_be_loggedin(self):
-        response = self.client.get('/logout', follow_redirects=True)
+        response = self.client.get('/api/v1/logout', follow_redirects=True)
         self.assertTrue(b'Please Login First to access this page' in response.data)
 
     # Ensure that user can register
     def test_user_registration(self):
         with self.client:
-            response = self.client.post('/register', data=dict(username="quagmire", email="quagmire@gmail.com",
-                                                               password="lois&peter&meg",
-                                                               confirm_password="lois&peter&meg"),
+            response = self.client.post('/api/v1/register', data=dict(username="quagmire", email="quagmire@gmail.com",
+                                                                      password="lois&peter&meg",
+                                                                      confirm_password="lois&peter&meg"),
                                         follow_redirects=True)
             self.assertIn(b'You have been registered successfully and can proceed to login', response.data)
 
@@ -86,7 +86,7 @@ class UserViewsTests(BaseTestCase):
         with self.client:
             self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
                              follow_redirects=True)
-            response = self.client.post('/create_event',
+            response = self.client.post('/api/v1/create_events',
                                         data=dict(name="Blaze", category="Learning", location="Nairobi", owner="Andela",
                                                   description="It is a long established fact that a reader will "
                                                               "be distracted by the readable content of a page when "
@@ -99,4 +99,3 @@ class UserViewsTests(BaseTestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
