@@ -26,22 +26,19 @@ class User(UserMixin):
     # Update an event but first check if the user wants to update that field
     def update_event(self, name, category, location, owner, description):
         event = self.events_dict[name]
-        if category is not None:
+        print('category is ...', type(category))
+        if category != '':
             event.category = category
-        else:
-            return event.category
-        if location is not None:
+
+        if location != '':
             event.location = location
-        else:
-            return event.location
-        if owner is not None:
+
+        if owner != '':
             event.owner = owner
-        else:
-            return event.owner
-        if description is not None:
+
+        if description != '':
             event.description = description
-        else:
-            return event.description
+
         return event
 
     # Deletes an event but first checks if it exists
@@ -69,5 +66,4 @@ class User(UserMixin):
     # Method to return the total number of events
     def get_number_of_events(self):
         return len(self.events_dict)
-
 
