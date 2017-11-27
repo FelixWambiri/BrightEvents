@@ -14,6 +14,7 @@ class TestingConfig(BaseConfig):
     DEBUG = True
     TESTING = True
     WTF_CSRF_ENABLED = False
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 
 # Development config class that inherits from the default config class
