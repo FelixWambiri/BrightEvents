@@ -1,6 +1,5 @@
 import unittest
 
-from app.models.attendants import Attendants
 from app.models.user import User
 from app.models.event import Event
 
@@ -8,7 +7,7 @@ from app.models.event import Event
 class TestUser(unittest.TestCase):
     """
     This class will test:
-        If the methods are working User class are working correctly
+        If the methods of the User class are working correctly
         If not, whether that is captured
     """
 
@@ -21,7 +20,6 @@ class TestUser(unittest.TestCase):
         self.event2 = Event("Blaze", "Entrepreneurial", "Kenya", "Safariom",
                             "This is is a great opportunity for budding young entrepreneurs")
         self.event3 = Event("Blankets and wines", "Social", "Kenya", "B&W", "Chance for everyone to meet and socialise")
-        self.attendant1 = Attendants("John Doe", "john@doe.com", "0700123456")
 
     # Test for successful creation of a new user
     def test_user_is_created(self):
@@ -93,11 +91,6 @@ class TestUser(unittest.TestCase):
         self.user.create_event(self.event1)
         self.assertIs(self.event1, self.user.get_specific_event(self.event1))
 
-    # Test that an event attendant is added into the attendants database
-    def test_attendant_is_created_and_added_to_the_database(self):
-        self.user.add_attendants(self.attendant1)
-        self.assertEqual(1, len(self.user.events_attendees))
-
     # Test that an event can be updated
     def test_successful_update_of_event(self):
         self.user.create_event(self.event1)
@@ -115,16 +108,8 @@ class TestUser(unittest.TestCase):
         self.user.create_event(self.event3)
         self.assertEqual(3, self.user.get_number_of_events())
 
-    # Test that the correct number of event attendants is returned
-    def test_that_get_total_attendants_method_returns_correct_output(self):
-        # Test when there is no event added
-        self.assertEqual(0, self.user.get_total_attendants())
-
-        # Test after adding one attendant
-        self.user.add_attendants(self.attendant1)
-        self.assertEqual(1, self.user.get_total_attendants())
-
 
 if __name__ == '__main__':
     unittest.main()
 
+    
