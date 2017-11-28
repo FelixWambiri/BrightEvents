@@ -154,7 +154,7 @@ def single_events(eventName):
 
 # Route for a user to RSVP
 # Requires login and extracts a persons details
-@app.route('/api/v1/rsvp_event><string:eventName>/rsvp')
+@app.route('/api/v1/rsvp_event<string:eventName>/rsvp')
 @login_required
 def rsvp_event(eventName):
     event_dict = user_accounts.events
@@ -165,3 +165,4 @@ def rsvp_event(eventName):
 
 if __name__ == '__main__':
     app.run()
+
