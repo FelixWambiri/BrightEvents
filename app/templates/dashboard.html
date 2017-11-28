@@ -15,20 +15,18 @@
         </div>
         <hr>
         <div class="card-body bg-transparent border-success">
-            {% if current_user.get_total_attendants() > 0 %}
+            {% if event.get_total_attendants() > 0 %}
             <table class="table table-stripped">
                 <tr>
                     <th>Attendees Name</th>
-                    <th>Contacts</th>
-                    <th>Location</th>
+                    <th>Email</th>
                 </tr>
-
+                {% for attendant in event.attendees %}
                 <tr>
-                    <td>{{ attendant.name }}</td>
-                    <td>{{ attendant.contact }}</td>
-                    <td>{{ attendant.location }}</td>
+                    <td>{{ attendant.username }}</td>
+                    <td>{{ attendant.email }}</td>
                 </tr>
-
+                {% endfor %}
             </table>
             {% else %}
             <ul class="list-group">
@@ -54,4 +52,6 @@
 
 </div>
 {% endblock %}
+
+
 
