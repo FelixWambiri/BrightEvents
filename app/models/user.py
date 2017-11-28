@@ -13,7 +13,6 @@ class User(UserMixin):
         self.password = password
         self.confirm_password = confirm_password
         self.events_dict = {}
-        self.events_attendees = []
 
     # Create an event whereby name is key
     # But first check if the event already exists
@@ -24,6 +23,7 @@ class User(UserMixin):
             return self.events_dict.update({event.name: event})
 
     # Update an event but first check if the user wants to update that field
+    # If event field is empty previous data is retained
     def update_event(self, name, category, location, owner, description):
         event = self.events_dict[name]
         print('category is ...', type(category))
@@ -55,15 +55,8 @@ class User(UserMixin):
         else:
             raise KeyError("The event does not exist")
 
-    # Method to add attendees into the attendants list
-    def add_attendants(self, attendant):
-        return self.events_attendees.append(attendant)
-
-    # Method to know the number of attendants
-    def get_total_attendants(self):
-        return len(self.events_attendees)
-
     # Method to return the total number of events
     def get_number_of_events(self):
         return len(self.events_dict)
+
 
