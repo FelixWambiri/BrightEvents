@@ -30,7 +30,7 @@ Through this application a user can implement the following features:
 ## Installation
 1. Clone this repo into any directory in your machine `https://github.com/FelixWambiri/BrightEvents.git`
 2. Switch to the project directory by running the following command:`cd BrightEvents`
-3  Make sure you have the following installed:
+3.  Make sure you have the following installed:
 - `Python 3.6.2`
 - `Python virtualenv`
 4. create your virtual environment:
