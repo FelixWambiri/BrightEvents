@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/FelixWambiri/BrightEvents.svg?branch=features)](https://travis-ci.org/FelixWambiri/BrightEvents)
-[![Coverage Status](https://coveralls.io/repos/github/FelixWambiri/BrightEvents/badge.svg?branch=master)](https://coveralls.io/github/FelixWambiri/BrightEvents?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/FelixWambiri/BrightEvents/badge.svg?branch=features)](https://coveralls.io/github/FelixWambiri/BrightEvents?branch=features)
 # BrightEvents
 BrightEvents application provides a platform for event organizers to create and manage different types of events while
 making them easily accessible to target markets. Through this platform users can also RSVP to an event.
