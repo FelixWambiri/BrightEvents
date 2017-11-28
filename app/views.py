@@ -152,5 +152,16 @@ def single_events(eventName):
     return render_template("single_event.html", event=event)
 
 
+# Route for a user to RSVP
+# Requires login and extracts a persons details
+@app.route('/api/v1/rsvp_event><string:eventName>/rsvp')
+@login_required
+def rsvp_event(eventName):
+    event_dict = user_accounts.events
+    event = event_dict.get(eventName)
+    event.add_attendants(current_user)
+    return render_template("single_event.html", event=event)
+
+
 if __name__ == '__main__':
     app.run()
