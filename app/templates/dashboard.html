@@ -21,7 +21,7 @@
                     <th>Attendees Name</th>
                     <th>Email</th>
                 </tr>
-                {% for attendant in event.attendees %}
+                {% for attendant in event.event_attendees %}
                 <tr>
                     <td>{{ attendant.username }}</td>
                     <td>{{ attendant.email }}</td>
@@ -30,7 +30,7 @@
             </table>
             {% else %}
             <ul class="list-group">
-                <li class="list-group-item list-group-item-info">Currently no one has RSVP to attend your app</li>
+                <li class="list-group-item list-group-item-info">Currently no one has RSVP to attend your Event</li>
             </ul>
             {% endif %}
         </div>
