@@ -35,9 +35,13 @@ def load_user(username):
     return user_accounts.get_specific_user(username)
 
 
-# Index route
+# Home route
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    # To check if current user is logged in
+    # If logged in and they enter home route they should not be redirected to the home page
+    if current_user.is_authenticated:
+        return render_template("dashboard.html")
     if request.method == 'POST':
         username = request.form['username']
         password_f = request.form['password']
@@ -165,4 +169,3 @@ def rsvp_event(eventName):
 
 if __name__ == '__main__':
     app.run()
-
