@@ -27,7 +27,7 @@ class FlaskTestCase(BaseTestCase):
 
     # Test that the dashboard route is protected
     def test_dashboard_route_is_protected_and_requires_login(self):
-        response = self.client.get('/api/v1/dashboard', follow_redirects=True)
+        response = self.client.get('/api/v1/auth/dashboard', follow_redirects=True)
         self.assertTrue(b'Please Login First to access this page' in response.data)
 
 
@@ -57,20 +57,21 @@ class UserViewsTests(BaseTestCase):
         with self.client:
             self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
                              follow_redirects=True)
-            response = self.client.get('/api/v1/logout', follow_redirects=True)
+            response = self.client.get('/api/v1/auth/logout', follow_redirects=True)
             self.assertIn(b'You are logged out', response.data)
 
     # Ensure that the logout route requires user first to be logged in to use it
-    def test_logout_route_requires_user_to_be_loggedin(self):
-        response = self.client.get('/api/v1/logout', follow_redirects=True)
+    def test_logout_route_requires_user_to_be_logged_in(self):
+        response = self.client.get('/api/v1/auth/logout', follow_redirects=True)
         self.assertTrue(b'Please Login First to access this page' in response.data)
 
     # Ensure that user can register
     def test_user_registration(self):
         with self.client:
-            response = self.client.post('/api/v1/register', data=dict(username="quagmire", email="quagmire@gmail.com",
-                                                                      password="lois&peter&meg",
-                                                                      confirm_password="lois&peter&meg"),
+            response = self.client.post('/api/v1/auth/register',
+                                        data=dict(username="quagmire", email="quagmire@gmail.com",
+                                                  password="lois&peter&meg",
+                                                  confirm_password="lois&peter&meg"),
                                         follow_redirects=True)
             self.assertIn(b'You have been registered successfully and can proceed to login', response.data)
 
@@ -86,7 +87,7 @@ class UserViewsTests(BaseTestCase):
         with self.client:
             self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
                              follow_redirects=True)
-            response = self.client.post('/api/v1/create_events',
+            response = self.client.post('/api/v1/events',
                                         data=dict(name="Blaze", category="Learning", location="Nairobi", owner="Andela",
                                                   description="It is a long established fact that a reader will "
                                                               "be distracted by the readable content of a page when "
@@ -96,25 +97,6 @@ class UserViewsTests(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             self.assertIn(b'Dashboard', response.data)
 
-    # Test that a user can delete an event
-    def test_user_can_delete_an_event(self):
-        with self.client:
-            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
-                             follow_redirects=True)
-            self.client.post('/api/v1/create_events',
-                             data=dict(name="Blaze", category="Learning", location="Nairobi", owner="Andela",
-                                       description="It is a long established fact that a reader will "
-                                                   "be distracted by the readable content of a page when "
-                                                   "looking at its layout. The point of using Lorem Ipsum "
-                                                   "is that it has a more-or-less normal distribution "),
-                             follow_redirects=True)
-
-            response = self.client.delete('/api/v1/delete_events/Blaze', follow_redirects=True)
-
-            self.assertEqual(response.status_code, 200)
-            self.assertIn(b'The event has been deleted successfully', response.data)
-
-
+    
 if __name__ == '__main__':
     unittest.main()
-
