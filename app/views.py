@@ -67,7 +67,7 @@ def login():
 
 
 # Registration route
-@app.route('/api/v1/register', methods=['GET', 'POST'])
+@app.route('/api/v1/auth/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -82,14 +82,14 @@ def register():
 
 
 # User dashboard route
-@app.route('/api/v1/dashboard')
+@app.route('/api/v1/auth/dashboard')
 @login_required
 def dashboard():
     return render_template("dashboard.html")
 
 
 # Logout route
-@app.route('/api/v1/logout')
+@app.route('/api/v1/auth/logout')
 @login_required
 def logout():
     logout_user()
@@ -99,7 +99,7 @@ def logout():
 
 # User crud operations
 # Create an event
-@app.route('/api/v1/create_events', methods=['GET', 'POST'])
+@app.route('/api/v1/events', methods=['GET', 'POST'])
 @login_required
 def create_events():
     form = CreateEventForm(request.form)
@@ -116,7 +116,7 @@ def create_events():
 
 
 # Delete an event
-@app.route('/api/v1/delete_events/<string:eventName>', methods=['DELETE'])
+@app.route('/api/v1/delete/events/<string:eventName>')
 @login_required
 def delete_events(eventName):
     try:
@@ -129,7 +129,7 @@ def delete_events(eventName):
 
 # Update an Event
 # Name field should not be editable
-@app.route('/api/v1/update_events/<string:eventName>', methods=['GET', 'PUT', 'POST'])
+@app.route('/api/v1/events/update/<string:eventName>', methods=['GET', 'PUT', 'POST'])
 @login_required
 def update_events(eventName):
     form = UpdateEventForm(request.form)
@@ -146,7 +146,7 @@ def update_events(eventName):
 
 
 # Route for viewing all public events
-@app.route('/api/v1/public_events', methods=['GET'])
+@app.route('/api/v1/all_events', methods=['GET'])
 @login_required
 def public_events():
     return render_template("public_events.html", user_accounts=user_accounts)
@@ -154,7 +154,7 @@ def public_events():
 
 # Route for viewing a single event
 # Extracts single event by name
-@app.route('/api/v1/single_events/<string:eventName>', methods=['GET'])
+@app.route('/api/v1/one_event/<string:eventName>', methods=['GET'])
 @login_required
 def single_events(eventName):
     event_dict = user_accounts.events
@@ -164,7 +164,7 @@ def single_events(eventName):
 
 # Route for a user to RSVP
 # Requires login and extracts a persons details
-@app.route('/api/v1/rsvp_event<string:eventName>/rsvp')
+@app.route('/api/v1/event<string:eventName>/rsvp')
 @login_required
 def rsvp_event(eventName):
     event_dict = user_accounts.events
@@ -176,5 +176,3 @@ def rsvp_event(eventName):
 
 if __name__ == '__main__':
     app.run()
-
-    
