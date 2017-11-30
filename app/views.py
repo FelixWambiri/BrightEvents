@@ -57,11 +57,11 @@ def login():
                 flash("You have logged in successfully", 'success')
                 return redirect(url_for('dashboard'))
             else:
-                error = 'Invalid Password'
+                error = 'Invalid credentials'
                 return render_template("index.html", error=error)
 
         else:
-            error = 'Invalid Username, The Username does not exist'
+            error = 'Invalid credentials'
             return render_template("index.html", error=error)
     return render_template("index.html")
 
