@@ -96,6 +96,25 @@ class UserViewsTests(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             self.assertIn(b'Dashboard', response.data)
 
+    # Test that a user can delete an event
+    def test_user_can_delete_an_event(self):
+        with self.client:
+            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+                             follow_redirects=True)
+            self.client.post('/api/v1/create_events',
+                             data=dict(name="Blaze", category="Learning", location="Nairobi", owner="Andela",
+                                       description="It is a long established fact that a reader will "
+                                                   "be distracted by the readable content of a page when "
+                                                   "looking at its layout. The point of using Lorem Ipsum "
+                                                   "is that it has a more-or-less normal distribution "),
+                             follow_redirects=True)
+
+            response = self.client.delete('/api/v1/delete_events/Blaze', follow_redirects=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(b'The event has been deleted successfully', response.data)
+
 
 if __name__ == '__main__':
     unittest.main()
+
