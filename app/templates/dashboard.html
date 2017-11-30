@@ -7,7 +7,7 @@
 <hr>
 <div class="container">
     {% if current_user.get_number_of_events() > 0 %}
-    {% for event_name, event in current_user.events_dict.items() %}
+    {% for event in current_user.events_dict.values(): %}
     <div class="card" style="margin:25px auto;">
         <div class="card-header">
             <h2 style="text-align:center"><strong>{{ event.name }}</strong> || <strong>{{ event.category }}</strong> ||
@@ -52,6 +52,4 @@
 
 </div>
 {% endblock %}
-
-
 
