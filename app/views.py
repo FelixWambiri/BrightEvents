@@ -28,6 +28,11 @@ login_manager.login_message_category = "info"
 # User accounts object
 user_accounts = UserAccounts()
 
+# Initialize a registered user for faster testing
+user = User("felix", "felixwambiri21@gmail.com", "bootcamprtofellow", "bootcamprtofellow")
+
+user_accounts.create_user(user)
+
 
 # Callback method to reload the user object
 @login_manager.user_loader
@@ -47,8 +52,8 @@ def login():
         password_f = request.form['password']
         if user_accounts.get_specific_user(username):
             if password_f == user_accounts.get_specific_user(username).password:
-                app.logger.info('Password Matched')
-                login_user(user_accounts.get_specific_user(username))
+                user = user_accounts.get_specific_user(username)
+                login_user(user)
                 flash("You have logged in successfully", 'success')
                 return redirect(url_for('dashboard'))
             else:
@@ -111,11 +116,12 @@ def create_events():
 
 
 # Delete an event
-@app.route('/api/v1/delete_events/<string:eventName>')
+@app.route('/api/v1/delete_events/<string:eventName>', methods=['DELETE'])
 @login_required
 def delete_events(eventName):
     try:
         current_user.delete_event(eventName)
+        flash('The event has been deleted successfully', 'warning')
         return redirect(url_for('dashboard'))
     except KeyError:
         flash('The event does not exist', 'warning')
@@ -123,7 +129,7 @@ def delete_events(eventName):
 
 # Update an Event
 # Name field should not be editable
-@app.route('/api/v1/update_events/<string:eventName>', methods=['GET', 'PATCH', 'POST'])
+@app.route('/api/v1/update_events/<string:eventName>', methods=['GET', 'PUT', 'POST'])
 @login_required
 def update_events(eventName):
     form = UpdateEventForm(request.form)
@@ -164,8 +170,11 @@ def rsvp_event(eventName):
     event_dict = user_accounts.events
     event = event_dict.get(eventName)
     event.add_attendants(current_user)
+    flash('The have successfully RSVP to this event', 'success')
     return render_template("single_event.html", event=event)
 
 
 if __name__ == '__main__':
     app.run()
+
+    
