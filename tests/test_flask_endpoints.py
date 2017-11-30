@@ -49,7 +49,7 @@ class UserViewsTests(BaseTestCase):
     def test_incorrect_login(self):
         response = self.client.post('/', data=dict(username="Fellow1", password="felixwambiri@gmail.com"),
                                     follow_redirects=True)
-        self.assertTrue(b'Invalid Password' in response.data)
+        self.assertTrue(b'Invalid credentials' in response.data)
 
     # Test logout behaves correctly
     # But first we need to login
@@ -97,6 +97,6 @@ class UserViewsTests(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             self.assertIn(b'Dashboard', response.data)
 
-    
+
 if __name__ == '__main__':
     unittest.main()
