@@ -38,4 +38,4 @@ class UserAccounts:
     def get_number_of_all_users_events(self):
         return len(self.events)
 
-    
+
