@@ -15,7 +15,7 @@ class TestUser(unittest.TestCase):
         """
         Instantiating reusable variables
         """
-        self.user = User("Fellow1", "fellow1@andela.com", "bootcampertofellow", "bootcampertofellow")
+        self.user = User("Fellow1", "fellow1@andela.com", "bootcampertofellow")
         self.event1 = Event("Bootcamp", "Learning", "Uganda", "Andela", "Learning event for aspiring Andelans")
         self.event2 = Event("Blaze", "Entrepreneurial", "Kenya", "Safariom",
                             "This is is a great opportunity for budding young entrepreneurs")
@@ -112,4 +112,3 @@ class TestUser(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-    
