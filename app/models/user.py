@@ -9,8 +9,8 @@ class User(UserMixin):
     """
 
     def __init__(self, username, email, password):
-        self.id = username
-        self.email = email
+        self.username = username
+        self.id = email
         self.pw_hash = generate_password_hash(password)
         self.events_dict = {}
 
@@ -30,7 +30,8 @@ class User(UserMixin):
     # If event field is empty previous data is retained
     def update_event(self, name, category, location, owner, description):
         event = self.events_dict[name]
-        print('category is ...', type(category))
+        if name != '':
+            event.name = name
         if category != '':
             event.category = category
 
