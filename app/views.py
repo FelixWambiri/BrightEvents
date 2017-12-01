@@ -51,7 +51,7 @@ def login():
         username = request.form['username']
         password_f = request.form['password']
         if user_accounts.get_specific_user(username):
-            if password_f == user_accounts.get_specific_user(username).password:
+            if user_accounts.get_specific_user(username).compare_hashed_password(password_f):
                 user = user_accounts.get_specific_user(username)
                 login_user(user)
                 flash("You have logged in successfully", 'success')
