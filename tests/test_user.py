@@ -89,7 +89,7 @@ class TestUser(unittest.TestCase):
     # Test that the method get_specific_event returns that specified event
     def test_get_specific_event_method_returns_correct_output(self):
         self.user.create_event(self.event1)
-        self.assertIs(self.event1, self.user.get_specific_event(self.event1))
+        self.assertIs(self.event1, self.user.get_specific_event("Bootcamp"))
 
     # Test that an event can be updated
     def test_successful_update_of_event(self):
