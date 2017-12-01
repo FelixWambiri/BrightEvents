@@ -4,7 +4,7 @@ from app.models.event import Event
 from app.models.user import User
 
 
-class TestUser(unittest.TestCase):
+class TestEvent(unittest.TestCase):
     """
     This class will test:
         If the of the Event class are working correctly
@@ -16,9 +16,9 @@ class TestUser(unittest.TestCase):
         Instantiating reusable variables
         """
         self.event = Event("Bootcamp", "Learning", "Uganda", "Andela", "Learning event for aspiring Andelans")
-        self.attendant = User("Fellow1", "fellow1@andela.com", "bootcampertofellow", "bootcampertofellow")
-        self.attendant1 = User("Johny", "johny@bravo.com", "johnybravobravo", "johnybravobravo")
-        self.attendant2 = User("Ricky", "ricky@morty.com", "rickandmorty", "rickandmorty")
+        self.attendant = User("Fellow1", "fellow1@andela.com", "bootcampertofellow")
+        self.attendant1 = User("Johny", "johny@bravo.com", "johnybravobravo")
+        self.attendant2 = User("Ricky", "ricky@morty.com", "rickandmorty")
 
     # Test for successful creation of a new attendant
     def test_attendant_is_created(self):
@@ -69,4 +69,4 @@ class TestUser(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-    
+
