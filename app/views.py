@@ -36,8 +36,8 @@ user_accounts.create_user(user)
 
 # Callback method to reload the user object
 @login_manager.user_loader
-def load_user(username):
-    return user_accounts.get_specific_user(username)
+def load_user(email):
+    return user_accounts.get_specific_user(email)
 
 
 # Home route
@@ -48,11 +48,11 @@ def login():
     if current_user.is_authenticated:
         return render_template("dashboard.html")
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password_f = request.form['password']
-        if user_accounts.get_specific_user(username):
-            if user_accounts.get_specific_user(username).compare_hashed_password(password_f):
-                user = user_accounts.get_specific_user(username)
+        if user_accounts.get_specific_user(email):
+            if user_accounts.get_specific_user(email).compare_hashed_password(password_f):
+                user = user_accounts.get_specific_user(email)
                 login_user(user)
                 flash("You have logged in successfully", 'success')
                 return redirect(url_for('dashboard'))
@@ -72,7 +72,7 @@ def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
         if user_accounts.get_specific_user(form.username.data):
-            flash("User already exists, choose another username", 'warning')
+            flash("User already exists, choose another email", 'warning')
         else:
             user = User(form.username.data, form.email.data, form.password.data)
             user_accounts.create_user(user)
@@ -128,8 +128,7 @@ def delete_events(eventName):
 
 
 # Update an Event
-# Name field should not be editable
-@app.route('/api/v1/events/update/<string:eventName>', methods=['GET', 'PUT', 'POST'])
+@app.route('/api/v1/events/update/<string:eventName>', methods=['GET', 'POST'])
 @login_required
 def update_events(eventName):
     form = UpdateEventForm(request.form)
@@ -141,7 +140,6 @@ def update_events(eventName):
             return redirect(url_for('dashboard'))
         except KeyError:
             flash('The event does not exist', 'warning')
-
     return render_template("update_event.html", form=form)
 
 
@@ -170,9 +168,10 @@ def rsvp_event(eventName):
     event_dict = user_accounts.events
     event = event_dict.get(eventName)
     event.add_attendants(current_user)
-    flash('The have successfully RSVP to this event', 'success')
+    flash('You have successfully RSVP to this event, Thank you', 'success')
     return render_template("single_event.html", event=event)
 
 
 if __name__ == '__main__':
     app.run()
+
