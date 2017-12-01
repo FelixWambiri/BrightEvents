@@ -30,6 +30,8 @@ class CreateEventForm(Form):
 
 
 class UpdateEventForm(Form):
+    name = StringField('Name')
+
     category = StringField('Category')
 
     location = StringField('Location')
