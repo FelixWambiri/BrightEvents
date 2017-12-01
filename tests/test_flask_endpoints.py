@@ -6,7 +6,7 @@ from flask_testing import TestCase
 from app.models.user import User
 from app.views import user_accounts, app
 
-user_accounts.create_user(User("Fellow1", "fellow1@andela.com", "bootcampertofellow", "bootcampertofellow"))
+user_accounts.create_user(User("Fellow1", "fellow1@andela.com", "bootcampertofellow"))
 
 
 class BaseTestCase(TestCase):
