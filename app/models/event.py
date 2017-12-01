@@ -20,4 +20,4 @@ class Event:
     def get_total_attendants(self):
         return len(self.event_attendees)
 
-    
+
