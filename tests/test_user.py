@@ -95,7 +95,8 @@ class TestUser(unittest.TestCase):
     def test_successful_update_of_event(self):
         self.user.create_event(self.event1)
         self.assertEqual(self.event1,
-                         self.user.update_event("Bootcamp", "social", "tanzania", "safaricom", "eating contest"))
+                         self.user.update_event("Bootcamp", "Bootcamp_20", "social", "tanzania", "safaricom",
+                                                "eating contest"))
 
     # Test that the correct number of events is returned
     def test_that_get_number_of_events_method_returns_correct_output(self):
@@ -111,4 +112,3 @@ class TestUser(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
