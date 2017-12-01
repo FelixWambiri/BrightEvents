@@ -6,7 +6,7 @@ from flask_testing import TestCase
 from app.models.user import User
 from app.views import user_accounts, app
 
-user_accounts.create_user(User("Fellow1", "fellow1@andela.com", "bootcampertofellow"))
+user1 = user_accounts.create_user(User("Fellow1", "fellow1@andela.com", "bootcampertofellow"))
 
 
 class BaseTestCase(TestCase):
@@ -40,14 +40,14 @@ class UserViewsTests(BaseTestCase):
     # Test that the login page behaves correctly given correct credentials
     def test_correct_login(self):
         with self.client:
-            response = self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+            response = self.client.post('/', data=dict(email="fellow1@andela.com", password="bootcampertofellow"),
                                         follow_redirects=True)
             self.assertIn(b'Welcome', response.data)
-            self.assertTrue(current_user.id == 'Fellow1')
+            self.assertTrue(current_user.id == "fellow1@andela.com")
 
     # Test login behaves correctly given the incorrect credentials
     def test_incorrect_login(self):
-        response = self.client.post('/', data=dict(username="Fellow1", password="felixwambiri@gmail.com"),
+        response = self.client.post('/', data=dict(email="fellow1@andela.com", password="felixwambiri@gmail.com"),
                                     follow_redirects=True)
         self.assertTrue(b'Invalid credentials' in response.data)
 
@@ -55,7 +55,7 @@ class UserViewsTests(BaseTestCase):
     # But first we need to login
     def test_logout(self):
         with self.client:
-            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+            self.client.post('/', data=dict(email="fellow1@andela.com", password="bootcampertofellow"),
                              follow_redirects=True)
             response = self.client.get('/api/v1/auth/logout', follow_redirects=True)
             self.assertIn(b'You are logged out', response.data)
@@ -76,16 +76,16 @@ class UserViewsTests(BaseTestCase):
             self.assertIn(b'You have been registered successfully and can proceed to login', response.data)
 
     # Ensure id is correct for the current/logged in user
-    def test_get_correct_id(self):
+    def test_correct_id_returned(self):
         with self.client:
-            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+            self.client.post('/', data=dict(email="fellow1@andela.com", password="bootcampertofellow"),
                              follow_redirects=True)
-            self.assertTrue(current_user.id == 'Fellow1')
+            self.assertTrue(current_user.id == 'fellow1@andela.com')
 
     # Test that a user can create an event
     def test_user_can_create_an_event(self):
         with self.client:
-            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+            self.client.post('/', data=dict(email="fellow1@andela.com", password="bootcampertofellow"),
                              follow_redirects=True)
             response = self.client.post('/api/v1/events',
                                         data=dict(name="Blaze", category="Learning", location="Nairobi", owner="Andela",
