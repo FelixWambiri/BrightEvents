@@ -29,7 +29,7 @@ login_manager.login_message_category = "info"
 user_accounts = UserAccounts()
 
 # Initialize a registered user for faster testing
-user = User("felix", "felixwambiri21@gmail.com", "bootcamprtofellow", "bootcamprtofellow")
+user = User("felix", "felixwambiri21@gmail.com", "bootcamprtofellow")
 
 user_accounts.create_user(user)
 
@@ -74,7 +74,7 @@ def register():
         if user_accounts.get_specific_user(form.username.data):
             flash("User already exists, choose another username", 'warning')
         else:
-            user = User(form.username.data, form.email.data, form.password.data, form.confirm_password.data)
+            user = User(form.username.data, form.email.data, form.password.data)
             user_accounts.create_user(user)
             flash("You have been registered successfully and can proceed to login", 'success')
             return redirect(url_for('login'))
