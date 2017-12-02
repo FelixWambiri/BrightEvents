@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, url_for
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from werkzeug.utils import redirect
 
-from app.forms import RegisterForm, CreateEventForm, UpdateEventForm
+from app.forms import RegisterForm, CreateEventForm, UpdateEventForm, ResetPasswordForm
 from app.models.event import Event
 from app.models.user import User
 from app.models.user_acounts import UserAccounts
@@ -178,6 +178,23 @@ def rsvp_event(eventName):
     event.add_attendants(current_user)
     flash('You have successfully RSVP to this event, Thank you', 'success')
     return render_template("single_event.html", event=event)
+
+
+# Route to reset password
+@app.route('/api/auth/reset_password', methods=['GET', 'POST'])
+@login_required
+def reset_password():
+    form = ResetPasswordForm(request.form)
+    if request.method == 'POST':
+        if current_user.compare_hashed_password(form.previous_password.data):
+            current_user.user_reset_password(form.new_password.data)
+            flash('You have successfully updated your password', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            error: 'Please try to remember you previous password'
+            return render_template("reset_pw.html", error=error)
+
+    return render_template("reset_pw.html")
 
 
 if __name__ == '__main__':
