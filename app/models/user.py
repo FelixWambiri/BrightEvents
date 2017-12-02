@@ -30,8 +30,10 @@ class User(UserMixin):
     # If event field is empty previous data is retained
     def update_event(self, name, new_name, category, location, owner, description):
         event = self.events_dict[name]
-        if name != '':
+        if new_name != '':
             event.name = new_name
+            self.events_dict[new_name] = event
+            del self.events_dict[name]
         if category != '':
             event.category = category
 
@@ -53,7 +55,7 @@ class User(UserMixin):
         else:
             return self.events_dict.pop(name)
 
-    # This method returns a specific event
+    # This method returns a specific event by name
     def get_specific_event(self, event_name):
         if event_name in self.events_dict:
             return self.events_dict[event_name]
