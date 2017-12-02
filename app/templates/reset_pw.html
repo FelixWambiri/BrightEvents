@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<form class="form-signin" method="post" action="" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    <div class="universal">
+        <div class="universal-screen">
+            <div class="app-title">
+                <h1>Reset Password</h1>
+            </div>
+            {% from 'includes/_formhelpers.html' import render_field %}
+            <div class="universal-form">
+                <div class="control-group">
+                    {{ render_field(form.previous_password, class_="form-control") }}
+                </div>
+                <div class="control-group">
+                    {{ render_field(form.new_password, class_="form-control") }}
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+
