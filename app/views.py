@@ -71,7 +71,7 @@ def login():
 def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
-        if user_accounts.get_specific_user(form.username.data):
+        if user_accounts.get_specific_user(form.email.data):
             flash("User already exists, choose another email", 'warning')
         else:
             user = User(form.username.data, form.email.data, form.password.data)
@@ -125,6 +125,7 @@ def delete_events(eventName):
         return redirect(url_for('dashboard'))
     except KeyError:
         flash('The event does not exist', 'warning')
+        return render_template("dashboard.html")
 
 
 # Update an Event
@@ -134,7 +135,8 @@ def update_events(eventName):
     form = UpdateEventForm(request.form)
     if request.method == 'POST' and form.validate():
         try:
-            current_user.update_event(eventName, form.category.data, form.location.data, form.owner.data,
+            current_user.update_event(eventName, form.name.data, form.category.data, form.location.data,
+                                      form.owner.data,
                                       form.description.data)
             flash('The event has been updated successfully', 'success')
             return redirect(url_for('dashboard'))
@@ -174,4 +176,3 @@ def rsvp_event(eventName):
 
 if __name__ == '__main__':
     app.run()
-
