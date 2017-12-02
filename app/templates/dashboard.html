@@ -4,6 +4,7 @@
     <small> Welcome {{ current_user.username }}</small>
 </h1>
 <button class="btn btn-primary" onclick="window.location.href='{{url_for('create_events')}} '">New Event</button>
+<button class="btn btn-primary" onclick="window.location.href='{{url_for('reset_password')}}' ">Reset password</button>
 <hr>
 <div class="container">
     {% if current_user.get_number_of_events() > 0 %}
