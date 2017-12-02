@@ -4,6 +4,7 @@
     <small> Welcome {{ current_user.id }}</small>
 </h1>
 <button class="btn btn-primary" onclick="window.location.href='{{url_for('create_events')}} '">New Event</button>
+<button class="btn btn-primary">Reset password</button>
 <hr>
 <div class="container">
     {% if current_user.get_number_of_events() > 0 %}
@@ -40,7 +41,7 @@
                     onclick="window.location.href='{{ url_for('update_events', eventName = event.name) }}'">Update
             </button>
             <input class="btn btn-danger" type="submit" value="Delete"
-                   onclick="window.location.href='{{ url_for('delete_events', eventName = event.name) }}' ">
+                   onclick="window.location.href='{{ url_for('delete_events', event_name = event.name) }}' ">
         </div>
     </div>
     {% endfor %}
