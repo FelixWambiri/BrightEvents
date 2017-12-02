@@ -116,11 +116,13 @@ def create_events():
 
 
 # Delete an event
-@app.route('/api/v1/delete/events/<string:eventName>')
+# Delete it from the users dashboard and also from the public events list
+@app.route('/api/v1/delete/events/<string:event_name>')
 @login_required
-def delete_events(eventName):
+def delete_events(event_name):
     try:
-        current_user.delete_event(eventName)
+        current_user.delete_event(event_name)
+        user_accounts.delete_an_individuals_events(event_name)
         flash('The event has been deleted successfully', 'warning')
         return redirect(url_for('dashboard'))
     except KeyError:
