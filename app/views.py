@@ -45,21 +45,18 @@ def load_user(email):
 def login():
     # To check if current user is logged in
     # If logged in and they enter home route they should not be redirected to the home page
-    if current_user.is_authenticated:
-        return render_template("dashboard.html")
     if request.method == 'POST':
         email = request.form['email']
         password_f = request.form['password']
-        if user_accounts.get_specific_user(email):
-            if user_accounts.get_specific_user(email).compare_hashed_password(password_f):
-                user = user_accounts.get_specific_user(email)
+        user = user_accounts.get_specific_user(email)
+        if user:
+            if user.compare_hashed_password(password_f):
                 login_user(user)
                 flash("You have logged in successfully", 'success')
                 return redirect(url_for('dashboard'))
             else:
                 error = 'Invalid credentials'
                 return render_template("index.html", error=error)
-
         else:
             error = 'Invalid credentials'
             return render_template("index.html", error=error)
@@ -76,6 +73,7 @@ def register():
         else:
             user = User(form.username.data, form.email.data, form.password.data)
             user_accounts.create_user(user)
+            print(current_user.is_authenticated())
             flash("You have been registered successfully and can proceed to login", 'success')
             return redirect(url_for('login'))
     return render_template("register.html", form=form)
@@ -131,15 +129,22 @@ def delete_events(event_name):
 
 
 # Update an Event
+# should populate for with previous data stored
 @app.route('/api/v1/events/update/<string:eventName>', methods=['GET', 'POST'])
 @login_required
 def update_events(eventName):
-    form = UpdateEventForm(request.form)
+    event = current_user.get_specific_event(eventName)
+    form = UpdateEventForm(request.form, obj=event)
+    print(form.name)
     if request.method == 'POST' and form.validate():
         try:
-            current_user.update_event(eventName, form.name.data, form.category.data, form.location.data,
-                                      form.owner.data,
-                                      form.description.data)
+            print(form.category.data)
+            eve = current_user.update_event(eventName, form.name.data, form.category.data, form.location.data,
+                                            form.owner.data,
+                                            form.description.data)
+            form.populate_obj(eve)
+            print(eve.category)
+            current_user.create_event(eve)
             flash('The event has been updated successfully', 'success')
             return redirect(url_for('dashboard'))
         except KeyError:
