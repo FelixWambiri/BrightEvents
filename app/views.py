@@ -73,7 +73,6 @@ def register():
         else:
             user = User(form.username.data, form.email.data, form.password.data)
             user_accounts.create_user(user)
-            print(current_user.is_authenticated())
             flash("You have been registered successfully and can proceed to login", 'success')
             return redirect(url_for('login'))
     return render_template("register.html", form=form)
