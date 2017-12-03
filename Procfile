@@ -1,1 +1,1 @@
-web: gunicorn run:app
+web: waitress-serve --port=$PORT bright-events-web-application.wsgi:application
