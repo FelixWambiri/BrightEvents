@@ -36,7 +36,8 @@ class User(UserMixin):
         if new_name != '':
             event.name = new_name
             self.events_dict[new_name] = event
-            del self.events_dict[name]
+            if new_name != name:
+                del self.events_dict[name]
         if category != '':
             event.category = category
 
