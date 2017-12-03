@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT bright-events-web-application.wsgi:application
+web: waitress-serve --port=$PORT BrightEvents.wsgi:application
