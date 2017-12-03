@@ -104,7 +104,7 @@ def create_events():
         event = Event(form.name.data, form.category.data, form.location.data, form.owner.data, form.description.data)
         try:
             current_user.create_event(event)
-            user_accounts.add_all_individual_events(current_user)
+            user_accounts.add_all_individual_events(None, current_user)
             return redirect(url_for('dashboard'))
         except KeyError:
             flash('The event already exists', 'warning')
@@ -139,6 +139,8 @@ def update_events(eventName):
             up_event = current_user.update_event(eventName, form.name.data, form.category.data, form.location.data,
                                             form.owner.data,
                                             form.description.data)
+            # Update also in the pubic events
+            user_accounts.add_all_individual_events(eventName, current_user)
             form.process(obj=up_event)
             flash('The event has been updated successfully', 'success')
             return redirect(url_for('dashboard'))
