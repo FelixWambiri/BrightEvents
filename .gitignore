@@ -1,2 +1,8 @@
 .idea/
 venv/
+ instance/__pycache__/
+__pycache__/
+views.py___jb_tmp___
+tests/__pycache__/
+
+

@@ -1,13 +1,14 @@
 {% extends 'layout.html' %}
 {% block body %}
 <h1>Dashboard
-    <small> Welcome {{ current_user.id }}</small>
+    <small> Welcome {{ current_user.username }}</small>
 </h1>
 <button class="btn btn-primary" onclick="window.location.href='{{url_for('create_events')}} '">New Event</button>
+<button class="btn btn-primary" onclick="window.location.href='{{url_for('reset_password')}}' ">Reset password</button>
 <hr>
 <div class="container">
     {% if current_user.get_number_of_events() > 0 %}
-    {% for event_name, event in current_user.events_dict.items() %}
+    {% for event in current_user.events_dict.values(): %}
     <div class="card" style="margin:25px auto;">
         <div class="card-header">
             <h2 style="text-align:center"><strong>{{ event.name }}</strong> || <strong>{{ event.category }}</strong> ||
@@ -39,19 +40,43 @@
             <button class="btn btn-primary"
                     onclick="window.location.href='{{ url_for('update_events', eventName = event.name) }}'">Update
             </button>
-            <input class="btn btn-danger" type="submit" value="Delete"
-                   onclick="window.location.href='{{ url_for('delete_events', eventName = event.name) }}' ">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#mymodal">
+                Delete
+            </button>
+
+
+            <div id="mymodal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Please confirm deletion</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>If you want to delete the event do so by pressing the delete button else cancel the
+                                deletion</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input class="btn btn-danger" type="submit" value="Delete"
+                                   onclick="window.location.href='{{ url_for('delete_events', event_name = event.name) }}' ">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-    {% endfor %}
-    {% else %}
-    <ul class="list-group">
-        <li class="list-group-item list-group-item-info">You currently do not have any events posted</li>
-    </ul>
-    {% endif %}
+</div>
+{% endfor %}
+{% else %}
+<ul class="list-group">
+    <li class="list-group-item list-group-item-info">You currently do not have any events posted</li>
+</ul>
+{% endif %}
 
 </div>
 {% endblock %}
-
 
 

@@ -15,7 +15,7 @@ class TestUser(unittest.TestCase):
         """
         Instantiating reusable variables
         """
-        self.user = User("Fellow1", "fellow1@andela.com", "bootcampertofellow", "bootcampertofellow")
+        self.user = User("Fellow1", "fellow1@andela.com", "bootcampertofellow")
         self.event1 = Event("Bootcamp", "Learning", "Uganda", "Andela", "Learning event for aspiring Andelans")
         self.event2 = Event("Blaze", "Entrepreneurial", "Kenya", "Safariom",
                             "This is is a great opportunity for budding young entrepreneurs")
@@ -89,13 +89,14 @@ class TestUser(unittest.TestCase):
     # Test that the method get_specific_event returns that specified event
     def test_get_specific_event_method_returns_correct_output(self):
         self.user.create_event(self.event1)
-        self.assertIs(self.event1, self.user.get_specific_event(self.event1))
+        self.assertIs(self.event1, self.user.get_specific_event("Bootcamp"))
 
     # Test that an event can be updated
     def test_successful_update_of_event(self):
         self.user.create_event(self.event1)
         self.assertEqual(self.event1,
-                         self.user.update_event("Bootcamp", "social", "tanzania", "safaricom", "eating contest"))
+                         self.user.update_event("Bootcamp", "Bootcamp_20", "social", "tanzania", "safaricom",
+                                                "eating contest"))
 
     # Test that the correct number of events is returned
     def test_that_get_number_of_events_method_returns_correct_output(self):
@@ -108,8 +109,15 @@ class TestUser(unittest.TestCase):
         self.user.create_event(self.event3)
         self.assertEqual(3, self.user.get_number_of_events())
 
+    # Test that user can reset their password
+    def test_that_user_can_reset_password(self):
+        # Test initial password
+        self.assertTrue(self.user.compare_hashed_password("bootcampertofellow"))
+
+        # Test that password has been reset
+        self.user.user_reset_password("Blaze")
+        self.assertFalse(self.user.compare_hashed_password("bootcampertofellow"))
+
 
 if __name__ == '__main__':
     unittest.main()
-
-    

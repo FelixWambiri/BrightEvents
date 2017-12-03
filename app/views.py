@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, url_for
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from werkzeug.utils import redirect
 
-from app.forms import RegisterForm, CreateEventForm, UpdateEventForm
+from app.forms import RegisterForm, CreateEventForm, UpdateEventForm, ResetPasswordForm
 from app.models.event import Event
 from app.models.user import User
 from app.models.user_acounts import UserAccounts
@@ -28,44 +28,50 @@ login_manager.login_message_category = "info"
 # User accounts object
 user_accounts = UserAccounts()
 
+# Initialize a registered user for faster testing
+user = User("felix", "felixwambiri21@gmail.com", "bootcamprtofellow")
+
+user_accounts.create_user(user)
+
 
 # Callback method to reload the user object
 @login_manager.user_loader
-def load_user(username):
-    return user_accounts.get_specific_user(username)
+def load_user(email):
+    return user_accounts.get_specific_user(email)
 
 
-# Index route
+# Home route
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    # To check if current user is logged in
+    # If logged in and they enter home route they should not be redirected to the home page
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password_f = request.form['password']
-        if user_accounts.get_specific_user(username):
-            if password_f == user_accounts.get_specific_user(username).password:
-                app.logger.info('Password Matched')
-                login_user(user_accounts.get_specific_user(username))
+        user = user_accounts.get_specific_user(email)
+        if user:
+            if user.compare_hashed_password(password_f):
+                login_user(user)
                 flash("You have logged in successfully", 'success')
                 return redirect(url_for('dashboard'))
             else:
-                error = 'Invalid Password'
+                error = 'Invalid credentials'
                 return render_template("index.html", error=error)
-
         else:
-            error = 'Invalid Username, The Username does not exist'
+            error = 'Invalid credentials'
             return render_template("index.html", error=error)
     return render_template("index.html")
 
 
 # Registration route
-@app.route('/api/v1/register', methods=['GET', 'POST'])
+@app.route('/api/v1/auth/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
-        if user_accounts.get_specific_user(form.username.data):
-            flash("User already exists, choose another username", 'warning')
+        if user_accounts.get_specific_user(form.email.data):
+            flash("User already exists, choose another email", 'warning')
         else:
-            user = User(form.username.data, form.email.data, form.password.data, form.confirm_password.data)
+            user = User(form.username.data, form.email.data, form.password.data)
             user_accounts.create_user(user)
             flash("You have been registered successfully and can proceed to login", 'success')
             return redirect(url_for('login'))
@@ -73,14 +79,14 @@ def register():
 
 
 # User dashboard route
-@app.route('/api/v1/dashboard')
+@app.route('/api/v1/auth/dashboard')
 @login_required
 def dashboard():
     return render_template("dashboard.html")
 
 
 # Logout route
-@app.route('/api/v1/logout')
+@app.route('/api/v1/auth/logout')
 @login_required
 def logout():
     logout_user()
@@ -90,7 +96,7 @@ def logout():
 
 # User crud operations
 # Create an event
-@app.route('/api/v1/create_events', methods=['GET', 'POST'])
+@app.route('/api/v1/events', methods=['GET', 'POST'])
 @login_required
 def create_events():
     form = CreateEventForm(request.form)
@@ -107,36 +113,46 @@ def create_events():
 
 
 # Delete an event
-@app.route('/api/v1/delete_events/<string:eventName>')
+# Delete it from the users dashboard and also from the public events list
+@app.route('/api/v1/delete/events/<string:event_name>')
 @login_required
-def delete_events(eventName):
+def delete_events(event_name):
     try:
-        current_user.delete_event(eventName)
+        current_user.delete_event(event_name)
+        user_accounts.delete_an_individuals_events(event_name)
+        flash('The event has been deleted successfully', 'warning')
         return redirect(url_for('dashboard'))
     except KeyError:
         flash('The event does not exist', 'warning')
+        return render_template("dashboard.html")
 
 
 # Update an Event
-# Name field should not be editable
-@app.route('/api/v1/update_events/<string:eventName>', methods=['GET', 'PATCH', 'POST'])
+# should populate for with previous data stored
+@app.route('/api/v1/events/update/<string:eventName>', methods=['GET', 'POST'])
 @login_required
 def update_events(eventName):
-    form = UpdateEventForm(request.form)
+    event = current_user.get_specific_event(eventName)
+    form = UpdateEventForm(request.form, obj=event)
+    print(form.name)
     if request.method == 'POST' and form.validate():
         try:
-            current_user.update_event(eventName, form.category.data, form.location.data, form.owner.data,
-                                      form.description.data)
+            print(form.category.data)
+            eve = current_user.update_event(eventName, form.name.data, form.category.data, form.location.data,
+                                            form.owner.data,
+                                            form.description.data)
+            form.populate_obj(eve)
+            print(eve.category)
+            current_user.create_event(eve)
             flash('The event has been updated successfully', 'success')
             return redirect(url_for('dashboard'))
         except KeyError:
             flash('The event does not exist', 'warning')
-
     return render_template("update_event.html", form=form)
 
 
 # Route for viewing all public events
-@app.route('/api/v1/public_events', methods=['GET'])
+@app.route('/api/v1/all_events', methods=['GET'])
 @login_required
 def public_events():
     return render_template("public_events.html", user_accounts=user_accounts)
@@ -144,7 +160,7 @@ def public_events():
 
 # Route for viewing a single event
 # Extracts single event by name
-@app.route('/api/v1/single_events/<string:eventName>', methods=['GET'])
+@app.route('/api/v1/one_event/<string:eventName>', methods=['GET'])
 @login_required
 def single_events(eventName):
     event_dict = user_accounts.events
@@ -154,15 +170,32 @@ def single_events(eventName):
 
 # Route for a user to RSVP
 # Requires login and extracts a persons details
-@app.route('/api/v1/rsvp_event<string:eventName>/rsvp')
+@app.route('/api/v1/event<string:eventName>/rsvp')
 @login_required
 def rsvp_event(eventName):
     event_dict = user_accounts.events
     event = event_dict.get(eventName)
     event.add_attendants(current_user)
+    flash('You have successfully RSVP to this event, Thank you', 'success')
     return render_template("single_event.html", event=event)
+
+
+# Route to reset password
+@app.route('/api/auth/reset_password', methods=['GET', 'POST'])
+@login_required
+def reset_password():
+    form = ResetPasswordForm(request.form)
+    if request.method == 'POST':
+        if current_user.compare_hashed_password(form.previous_password.data):
+            current_user.user_reset_password(form.new_password.data)
+            flash('You have successfully updated your password', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            error: 'Please try to remember you previous password'
+            return render_template("reset_pw.html", error=error)
+
+    return render_template("reset_pw.html")
 
 
 if __name__ == '__main__':
     app.run()
-

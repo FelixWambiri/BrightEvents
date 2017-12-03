@@ -3,8 +3,8 @@
 <div class="container">
     <h2><strong>Events that you might want to attend</strong></h2>
     {% if user_accounts.get_number_of_all_users_events() > 0 %}
-    {% for name, event in user_accounts.events.items() %}
-    <a href="/api/v1/single_events/{{ event.name }}" class="list-group-item " style="margin:25px auto;">
+    {% for event in user_accounts.events.values() %}
+    <a href="/api/v1/one_event/{{ event.name }}" class="list-group-item " style="margin:25px auto;">
         <h4 class="list-group-item-heading"><strong>{{ event.name }}</strong></h4>
         <p><span class="badge">{{ event.category }}</span><span class="badge">{{ event.location }}</span></p>
     </a>

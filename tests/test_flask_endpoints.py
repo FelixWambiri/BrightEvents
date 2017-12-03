@@ -6,7 +6,7 @@ from flask_testing import TestCase
 from app.models.user import User
 from app.views import user_accounts, app
 
-user_accounts.create_user(User("Fellow1", "fellow1@andela.com", "bootcampertofellow", "bootcampertofellow"))
+user1 = user_accounts.create_user(User("Fellow1", "fellow1@andela.com", "bootcampertofellow"))
 
 
 class BaseTestCase(TestCase):
@@ -27,7 +27,7 @@ class FlaskTestCase(BaseTestCase):
 
     # Test that the dashboard route is protected
     def test_dashboard_route_is_protected_and_requires_login(self):
-        response = self.client.get('/api/v1/dashboard', follow_redirects=True)
+        response = self.client.get('/api/v1/auth/dashboard', follow_redirects=True)
         self.assertTrue(b'Please Login First to access this page' in response.data)
 
 
@@ -40,53 +40,54 @@ class UserViewsTests(BaseTestCase):
     # Test that the login page behaves correctly given correct credentials
     def test_correct_login(self):
         with self.client:
-            response = self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+            response = self.client.post('/', data=dict(email="fellow1@andela.com", password="bootcampertofellow"),
                                         follow_redirects=True)
             self.assertIn(b'Welcome', response.data)
-            self.assertTrue(current_user.id == 'Fellow1')
+            self.assertTrue(current_user.id == "fellow1@andela.com")
 
     # Test login behaves correctly given the incorrect credentials
     def test_incorrect_login(self):
-        response = self.client.post('/', data=dict(username="Fellow1", password="felixwambiri@gmail.com"),
+        response = self.client.post('/', data=dict(email="fellow1@andela.com", password="felixwambiri@gmail.com"),
                                     follow_redirects=True)
-        self.assertTrue(b'Invalid Password' in response.data)
+        self.assertTrue(b'Invalid credentials' in response.data)
 
     # Test logout behaves correctly
     # But first we need to login
     def test_logout(self):
         with self.client:
-            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+            self.client.post('/', data=dict(email="fellow1@andela.com", password="bootcampertofellow"),
                              follow_redirects=True)
-            response = self.client.get('/api/v1/logout', follow_redirects=True)
+            response = self.client.get('/api/v1/auth/logout', follow_redirects=True)
             self.assertIn(b'You are logged out', response.data)
 
     # Ensure that the logout route requires user first to be logged in to use it
-    def test_logout_route_requires_user_to_be_loggedin(self):
-        response = self.client.get('/api/v1/logout', follow_redirects=True)
+    def test_logout_route_requires_user_to_be_logged_in(self):
+        response = self.client.get('/api/v1/auth/logout', follow_redirects=True)
         self.assertTrue(b'Please Login First to access this page' in response.data)
 
     # Ensure that user can register
     def test_user_registration(self):
         with self.client:
-            response = self.client.post('/api/v1/register', data=dict(username="quagmire", email="quagmire@gmail.com",
-                                                                      password="lois&peter&meg",
-                                                                      confirm_password="lois&peter&meg"),
+            response = self.client.post('/api/v1/auth/register',
+                                        data=dict(username="quagmire", email="quagmire@gmail.com",
+                                                  password="lois&peter&meg",
+                                                  confirm_password="lois&peter&meg"),
                                         follow_redirects=True)
             self.assertIn(b'You have been registered successfully and can proceed to login', response.data)
 
     # Ensure id is correct for the current/logged in user
-    def test_get_correct_id(self):
+    def test_correct_id_returned(self):
         with self.client:
-            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+            self.client.post('/', data=dict(email="fellow1@andela.com", password="bootcampertofellow"),
                              follow_redirects=True)
-            self.assertTrue(current_user.id == 'Fellow1')
+            self.assertTrue(current_user.id == 'fellow1@andela.com')
 
     # Test that a user can create an event
     def test_user_can_create_an_event(self):
         with self.client:
-            self.client.post('/', data=dict(username="Fellow1", password="bootcampertofellow"),
+            self.client.post('/', data=dict(email="fellow1@andela.com", password="bootcampertofellow"),
                              follow_redirects=True)
-            response = self.client.post('/api/v1/create_events',
+            response = self.client.post('/api/v1/events',
                                         data=dict(name="Blaze", category="Learning", location="Nairobi", owner="Andela",
                                                   description="It is a long established fact that a reader will "
                                                               "be distracted by the readable content of a page when "

@@ -30,6 +30,8 @@ class CreateEventForm(Form):
 
 
 class UpdateEventForm(Form):
+    name = StringField('Name')
+
     category = StringField('Category')
 
     location = StringField('Location')
@@ -38,3 +40,7 @@ class UpdateEventForm(Form):
 
     description = TextAreaField('Description')
 
+
+class ResetPasswordForm(Form):
+    previous_password = PasswordField('Previous Password', [validators.DataRequired("Please fill out this field")])
+    new_password = PasswordField('New Password', [validators.DataRequired("Please fill out this field")])
