@@ -31,23 +31,24 @@ class User(UserMixin):
 
     # Update an event but first check if the user wants to update that field
     # If event field is empty previous data is retained
+    # Avoid spaces by use of strip
     def update_event(self, name, new_name, category, location, owner, description):
         event = self.events_dict[name]
-        if new_name != '':
+        if new_name.strip():
             event.name = new_name
             self.events_dict[new_name] = event
             if new_name != name:
                 del self.events_dict[name]
-        if category != '':
+        if category.strip():
             event.category = category
 
-        if location != '':
+        if location.strip():
             event.location = location
 
-        if owner != '':
+        if owner.strip():
             event.owner = owner
 
-        if description != '':
+        if description.strip():
             event.description = description
 
         return event
@@ -57,7 +58,7 @@ class User(UserMixin):
         if name not in self.events_dict:
             raise KeyError("There does not exist an event by that name")
         else:
-            return self.events_dict.pop(name)
+            del self.events_dict[name]
 
     # This method returns a specific event
     def get_specific_event(self, event_name):
