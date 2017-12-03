@@ -134,16 +134,12 @@ def delete_events(event_name):
 def update_events(eventName):
     event = current_user.get_specific_event(eventName)
     form = UpdateEventForm(request.form, obj=event)
-    print(form.name)
     if request.method == 'POST' and form.validate():
         try:
-            print(form.category.data)
-            eve = current_user.update_event(eventName, form.name.data, form.category.data, form.location.data,
+            up_event = current_user.update_event(eventName, form.name.data, form.category.data, form.location.data,
                                             form.owner.data,
                                             form.description.data)
-            form.populate_obj(eve)
-            print(eve.category)
-            current_user.create_event(eve)
+            form.process(obj=up_event)
             flash('The event has been updated successfully', 'success')
             return redirect(url_for('dashboard'))
         except KeyError:
