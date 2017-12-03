@@ -194,7 +194,7 @@ def reset_password():
             error: 'Please try to remember you previous password'
             return render_template("reset_pw.html", error=error)
 
-    return render_template("reset_pw.html")
+    return render_template("reset_pw.html", form=form)
 
 
 if __name__ == '__main__':
