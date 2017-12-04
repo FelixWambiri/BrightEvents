@@ -22,10 +22,10 @@
                     <th>Attendees Name</th>
                     <th>Email</th>
                 </tr>
-                {% for attendant in event.event_attendees %}
+                {% for name, email in event.event_attendees.items() %}
                 <tr>
-                    <td>{{ attendant.username }}</td>
-                    <td>{{ attendant.id }}</td>
+                    <td>{{ name }}</td>
+                    <td>{{ email }}</td>
                 </tr>
                 {% endfor %}
             </table>
