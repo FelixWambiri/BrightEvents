@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/FelixWambiri/BrightEvents.svg?branch=features)](https://travis-ci.org/FelixWambiri/BrightEvents)
 [![Coverage Status](https://coveralls.io/repos/github/FelixWambiri/BrightEvents/badge.svg?branch=features)](https://coveralls.io/github/FelixWambiri/BrightEvents?branch=features)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/25d2dd42ba0349459306f9a1a65bfc7a)](https://www.codacy.com/app/FelixWambiri/BrightEvents?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=FelixWambiri/BrightEvents&amp;utm_campaign=Badge_Grade)
 # BrightEvents
 BrightEvents application provides a platform for event organizers to create and manage different types of events while
 making them easily accessible to target markets. Through this platform users can also RSVP to an event.
