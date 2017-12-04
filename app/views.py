@@ -29,9 +29,12 @@ login_manager.login_message_category = "info"
 user_accounts = UserAccounts()
 
 # Initialize a registered user for faster testing
-user = User("felix", "felixwambiri21@gmail.com", "bootcamprtofellow")
+user = User("felix", "felixwambiri21@gmail.com", "bootcamp")
+user1 = User("wambiri", "wambirimathia@gmail.com", "bootcamp")
 
+# Registered users to save time
 user_accounts.create_user(user)
+user_accounts.create_user(user1)
 
 
 # Callback method to reload the user object
