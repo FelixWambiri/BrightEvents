@@ -137,8 +137,8 @@ def update_events(eventName):
     if request.method == 'POST' and form.validate():
         try:
             up_event = current_user.update_event(eventName, form.name.data, form.category.data, form.location.data,
-                                            form.owner.data,
-                                            form.description.data)
+                                                 form.owner.data,
+                                                 form.description.data)
             # Update also in the pubic events
             user_accounts.add_all_individual_events(eventName, current_user)
             form.process(obj=up_event)
@@ -173,8 +173,8 @@ def single_events(eventName):
 def rsvp_event(eventName):
     event_dict = user_accounts.events
     event = event_dict.get(eventName)
-    event.add_attendants(current_user)
-    flash('You have successfully RSVP to this event, Thank you', 'success')
+    event.add_attendants(current_user.id, current_user.username)
+    flash('You have successfully RSVP to this event, thank you for the initiative ', 'success')
     return render_template("single_event.html", event=event)
 
 
