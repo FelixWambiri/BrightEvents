@@ -186,14 +186,14 @@ def rsvp_event(eventName):
 @login_required
 def reset_password():
     form = ResetPasswordForm(request.form)
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         if current_user.compare_hashed_password(form.previous_password.data):
             current_user.user_reset_password(form.new_password.data)
             flash('You have successfully updated your password', 'success')
             return redirect(url_for('dashboard'))
         else:
-            error: 'Please try to remember you previous password'
-            return render_template("reset_pw.html", error=error)
+            flash('The password you have entered does not match your last password, Please try again', 'warning')
+            return render_template("reset_pw.html", form=form)
 
     return render_template("reset_pw.html", form=form)
 
