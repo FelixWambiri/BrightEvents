@@ -176,9 +176,13 @@ def single_events(eventName):
 def rsvp_event(eventName):
     event_dict = user_accounts.events
     event = event_dict.get(eventName)
-    event.add_attendants(current_user.id, current_user.username)
-    flash('You have successfully RSVP to this event, thank you for the initiative ', 'success')
-    return render_template("single_event.html", event=event)
+    if current_user.username not in event.event_attendees:
+        event.add_attendants(current_user.id, current_user.username)
+        flash('You have successfully RSVP to this event, thank you for the initiative ', 'success')
+        return render_template("dashboard.html", event=event)
+    else:
+        flash('You have already made an RSVP to this event ', 'warning')
+        return render_template("single_event.html", event=event)
 
 
 # Route to reset password
